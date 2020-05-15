@@ -9,7 +9,7 @@ module.exports = function(config) {
 
         // list of files / patterns to load in the browser
         files: [
-            'node_modules/chartist/dist/chartist.min.js',
+            'node_modules/@matteoraf/chartist/dist/chartist.min.js',
             'node_modules/chai/chai.js',
             'chartist-plugin-legend.js',
             'test/*.js',
