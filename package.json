@@ -1,6 +1,6 @@
 {
   "name": "@matteoraf/chartist-plugin-legend",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "author": "Matteoraf & Kees Kluskens <kees@codeyellow.nl>",
   "description": "Legend plugin for Chartist.js.",
   "license": "ISC",
@@ -14,7 +14,7 @@
   ],
   "devDependencies": {
     "chai": "^3.5.0",
-    "chartist": "^0.9.8",
+    "@matteoraf/chartist": "^0.11.5",
     "coveralls": "^2.11.12",
     "karma": "^1.1.2",
     "karma-chrome-launcher": "^2.0.0",
