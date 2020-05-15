@@ -92,7 +92,7 @@ Don't forget to import or define the `$ct-series-colors` variable
 In an example chart:
 
 ```js
-require('chartist-plugin-legend');
+require('@matteoraf/chartist-plugin-legend');
 
 new Chartist.Bar('.ct-chart', data, {
         stackBars: true,
@@ -103,15 +103,15 @@ new Chartist.Bar('.ct-chart', data, {
 )
 ```
 
-## Usage in a Vue.js project with the vue-chartist component
+## Usage in a Vue.js project with the @matteoraf/vue-chartist component
 
 Import the plugin together with chartist in a plugin file or in your main.js
 ```js
 import Vue from 'vue'
-import 'chartist/dist/chartist.min.css'
+import '@matteoraf/chartist/dist/chartist.min.css'
 import '@matteoraf/chartist-plugin-legend/chartist-plugin-legend'
 
-Vue.use(require('vue-chartist'))
+Vue.use(require('@matteoraf/vue-chartist'))
 ```
 
 Then use it in any of your components the same way you'd normally do:
