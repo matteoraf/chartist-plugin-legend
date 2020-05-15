@@ -22,7 +22,7 @@ var chartDataPie = {
 };
 
 // PhantomJS can't do a `.click()` on a DOM element, this is a workaround.
-function click(el) {
+function click(el){
     var ev = document.createEvent('MouseEvent');
     ev.initMouseEvent(
         'click',
@@ -48,7 +48,7 @@ function generateChart(type, chartData, legendOptions, chartNumber) {
     });
 }
 
-describe('Chartist plugin legend', function () {
+describe('Chartist plugin legend', function() {
     var chart;
     var chart2;
 
@@ -67,7 +67,7 @@ describe('Chartist plugin legend', function () {
         expect(window.Chartist.plugins.legend).to.exist;
     });
 
-    before(function () {
+    before(function() {
         var chartEl = document.createElement('div');
         chartEl.classList.add('ct-chart-1');
         document.body.appendChild(chartEl);
@@ -76,13 +76,11 @@ describe('Chartist plugin legend', function () {
         document.body.appendChild(chartEl2);
     });
 
-    describe('work with a Line chart', function () {
-        before(function (done) {
+    describe('work with a Line chart', function() {
+        before(function(done) {
             chart = generateChart('Line', chartDataLine);
 
-            chart.on('created', function () {
-                done();
-            });
+            chart.on('created', function() { done(); });
         });
 
         after(destroyChart);
@@ -101,7 +99,7 @@ describe('Chartist plugin legend', function () {
             var legendKey = 0;
             var parent = chart.container.querySelector('ul.ct-legend');
 
-            [].forEach.call(parent.childNodes, function (item) {
+            [].forEach.call(parent.childNodes, function(item) {
                 expect(item.dataset.legend).to.equal(String(legendKey));
                 expect(item.className).to.equal('ct-series-' + String(legendKey));
                 expect(item.innerHTML).to.equal(chartDataLine.series[legendKey].name);
@@ -126,13 +124,11 @@ describe('Chartist plugin legend', function () {
         });
     });
 
-    describe('work with a Pie chart', function () {
-        before(function (done) {
+    describe('work with a Pie chart', function() {
+        before(function(done) {
             chart = generateChart('Pie', chartDataPie);
 
-            chart.on('created', function () {
-                done();
-            });
+            chart.on('created', function() { done(); });
         });
 
         after(destroyChart);
@@ -152,7 +148,7 @@ describe('Chartist plugin legend', function () {
             var legendKey = 0;
             var parent = chart.container.querySelector('ul.ct-legend');
 
-            [].forEach.call(parent.childNodes, function (item) {
+            [].forEach.call(parent.childNodes, function(item) {
                 expect(item.dataset.legend).to.equal(String(legendKey));
                 expect(item.className).to.equal('ct-series-' + String(legendKey));
                 expect(item.innerHTML).to.equal(chartDataPie.labels[legendKey]);
@@ -161,14 +157,14 @@ describe('Chartist plugin legend', function () {
         });
     });
 
-    describe('work with two legends', function () {
-        before(function (done) {
+    describe('work with two legends', function() {
+        before(function(done) {
             chart = generateChart('Line', chartDataLine);
 
-            chart.on('created', function () {
+            chart.on('created', function() {
                 chart.off('created');
                 chart2 = generateChart('Line', chart2DataLine, null, 2);
-                chart2.on('created', function () {
+                chart2.on('created', function() {
                     chart2.off('created');
                     done();
                 });
@@ -178,17 +174,17 @@ describe('Chartist plugin legend', function () {
         after(destroyChart);
 
         it('should create unique legends', function () {
-            var legendText1 = chart.container.querySelector('ul.ct-legend').textContent;
-            var legendText2 = chart2.container.querySelector('ul.ct-legend').textContent;
+            const legendText1 = chart.container.querySelector('ul.ct-legend').textContent;
+            const legendText2 = chart2.container.querySelector('ul.ct-legend').textContent;
             expect(legendText1).to.equal('Blue pillRed pillPurple pill');
             expect(legendText2).to.equal('Second pill');
         });
     });
 
-    describe('allow options', function () {
-        it('should use custom legend names if provided', function (done) {
+    describe('allow options', function() {
+        it('should use custom legend names if provided', function(done) {
             var legendNames = ['Sheep', 'are', 'animals'];
-            chart = generateChart('Line', chartDataLine, {legendNames: legendNames});
+            chart = generateChart('Line', chartDataLine, { legendNames: legendNames });
 
             // Set a delay on the test to ensure it doesn't overlap with the plugin native 'created' handler
             chart.on('created', function () {
@@ -197,7 +193,8 @@ describe('Chartist plugin legend', function () {
                     var parent = chart.container.querySelector('ul.ct-legend');
 
                     expect(parent.childNodes.length).to.equal(3);
-                    [].forEach.call(parent.childNodes, function (item) {
+                    [].forEach.call(parent.childNodes, function (item)
+                    {
                         expect(item.innerHTML).to.equal(legendNames[legendKey]);
                         legendKey += 1;
                     });
@@ -211,7 +208,7 @@ describe('Chartist plugin legend', function () {
 
         it('should use the data object name when labels are not defined', function (done) {
             var chartDataNoLabels = {
-                labels: [], // adding empty array because chartist.js converts null or undefined labels into empty array
+                labels: [], // adding empty arry because chartist.js converts null or undefined labels into empty array
                 series: [
                     {name: 'Piece A', value: 20},
                     {name: 'Piece B', value: 10},
@@ -222,14 +219,14 @@ describe('Chartist plugin legend', function () {
             chart = generateChart('Pie', chartDataNoLabels);
 
             // Set a delay on the test to ensure it doesn't overlap with the plugin native 'created' handler
-            chart.on('created', function () {
+            chart.on('created', function() {
                 setTimeout(function () {
                     var legendKey = 0;
                     var parent = chart.container.querySelector('ul.ct-legend');
 
                     expect(parent.childNodes.length).to.equal(4);
 
-                    [].forEach.call(parent.childNodes, function (item) {
+                    [].forEach.call(parent.childNodes, function(item) {
                         expect(item.innerHTML).to.equal(chartDataNoLabels.series[legendKey].name);
                         legendKey += 1;
                     });
@@ -242,8 +239,8 @@ describe('Chartist plugin legend', function () {
 
         });
 
-        it('should allow a custom class name', function (done) {
-            chart = generateChart('Line', chartDataLine, {className: 'bananas'});
+        it('should allow a custom class name', function(done) {
+            chart = generateChart('Line', chartDataLine, { className: 'bananas' });
 
             // Set a delay on the test to ensure it doesn't overlap with the plugin native 'created' handler
             chart.on('created', function () {
@@ -259,7 +256,7 @@ describe('Chartist plugin legend', function () {
 
         it('should allow multiple custom class names', function (done) {
             var classNames = ['multiclass-0', 'multiclass-1', 'multiclass-hidden'];
-            chart = generateChart('Line', chartDataLine, {classNames: classNames});
+            chart = generateChart('Line', chartDataLine, { classNames: classNames });
 
             // Set a delay on the test to ensure it doesn't overlap with the plugin native 'created' handler
             chart.on('created', function () {
@@ -279,7 +276,7 @@ describe('Chartist plugin legend', function () {
 
         describe('allow custom positioning', function () {
             it('should allow top positioning', function (done) {
-                chart = generateChart('Line', chartDataLine, {position: 'top'});
+                chart = generateChart('Line', chartDataLine, { position: 'top' });
 
                 // Set a delay on the test to ensure it doesn't overlap with the plugin native 'created' handler
                 chart.on('created', function () {
@@ -293,7 +290,7 @@ describe('Chartist plugin legend', function () {
             });
 
             it('should allow bottom positioning', function (done) {
-                chart = generateChart('Line', chartDataLine, {position: 'bottom'});
+                chart = generateChart('Line', chartDataLine, { position: 'bottom' });
 
                 // Set a delay on the test to ensure it doesn't overlap with the plugin native 'created' handler
                 chart.on('created', function () {
@@ -307,12 +304,12 @@ describe('Chartist plugin legend', function () {
             });
 
             it('should allow positioning to any DOM2 element', function (done) {
-                var elementId = 'legend'
+                var elementId = 'legend';
                 var testDOMElement = document.createElement('div');
                 testDOMElement.setAttribute('id', elementId)
-                document.body.insertBefore(testDOMElement, null);
+                document.body.insertBefore(testDOMElement , null);
 
-                chart = generateChart('Line', chartDataLine, {position: elementId});
+                chart = generateChart('Line', chartDataLine, { position: elementId });
 
                 // Set a delay on the test to ensure it doesn't overlap with the plugin native 'created' handler
                 chart.on('created', function () {
@@ -330,7 +327,7 @@ describe('Chartist plugin legend', function () {
         });
 
         it('should allow to remove all series at once', function () {
-            chart = generateChart('Line', chart2DataLine, {removeAll: true});
+            chart = generateChart('Line', chart2DataLine, { removeAll: true });
 
             chart.on('created', function () {
                 var seriesA = chart.container.querySelector('ul.ct-legend > .ct-series-0');
@@ -345,16 +342,16 @@ describe('Chartist plugin legend', function () {
             });
         })
 
-        describe('clickable', function () {
-            before(function (done) {
+        describe('clickable', function() {
+            before(function(done) {
                 chart = generateChart('Line', chartDataLine, {
                     clickable: true,
-                    onClick: function (chart) {
+                    onClick: function(chart,e) {
                         chart.legendClicked = true;
                     }
                 });
 
-                chart.on('created', function () {
+                chart.on('created', function() {
                     chart.off('created');
                     done();
                 });
@@ -362,13 +359,13 @@ describe('Chartist plugin legend', function () {
 
             after(destroyChart);
 
-            it('should enforce a className for each series', function () {
+            it('should enforce a className for each series', function() {
                 expect(chart.data.series[0].className).to.equal('ct-series-a');
                 expect(chart.data.series[1].className).to.equal('ct-series-b');
                 expect(chart.data.series[2].className).to.equal('ct-series-c');
             });
 
-            it('should hide a series after a click on the legend item', function () {
+            it('should hide a series after a click on the legend item', function() {
                 var seriesA = chart.container.querySelector('ul.ct-legend > .ct-series-0');
                 var seriesB = chart.container.querySelector('ul.ct-legend > .ct-series-1');
                 var seriesC = chart.container.querySelector('ul.ct-legend > .ct-series-2');
@@ -405,7 +402,7 @@ describe('Chartist plugin legend', function () {
                 expect(svgSeries2[2].className.baseVal).to.contain('ct-series-c');
             });
 
-            it('should update the legend item classes', function () {
+            it('should update the legend item classes', function() {
                 var seriesA = chart.container.querySelector('ul.ct-legend > .ct-series-0');
                 var seriesB = chart.container.querySelector('ul.ct-legend > .ct-series-1');
                 var seriesC = chart.container.querySelector('ul.ct-legend > .ct-series-2');
@@ -425,17 +422,17 @@ describe('Chartist plugin legend', function () {
                 // A click in the last active series should set all series active again.
                 click(seriesA);
                 click(seriesB);
-                legendItems = chart.container.querySelectorAll('ul.ct-legend > li');
+                var legendItems = chart.container.querySelectorAll('ul.ct-legend > li');
                 expect(legendItems[0].className).to.equal('ct-series-0 inactive');
                 expect(legendItems[1].className).to.equal('ct-series-1 inactive');
                 expect(legendItems[2].className).to.equal('ct-series-2');
                 click(seriesC);
-                inactiveItem = chart.container.querySelectorAll('ul.ct-legend > li.inactive');
+                var inactiveItem = chart.container.querySelectorAll('ul.ct-legend > li.inactive');
                 expect(inactiveItem.length).to.equal(0);
 
             });
 
-            it('should call a function after a click on the legend item', function () {
+            it('should call a function after a click on the legend item', function() {
                 var seriesB = chart.container.querySelector('ul.ct-legend > .ct-series-1');
 
                 click(seriesB);
@@ -448,17 +445,17 @@ describe('Chartist plugin legend', function () {
             });
         });
 
-        describe('clickable with multiple series per legend item', function () {
-            before(function (done) {
+        describe('clickable with multiple series per legend item', function() {
+            before(function(done) {
                 chart = generateChart('Line', chartDataLine, {
                     clickable: true,
-                    onClick: function (chart) {
+                    onClick: function(chart,e) {
                         chart.legendClicked = true;
                     },
-                    legendNames: [{name: 'Red-ish', series: [0, 1]}, {name: 'Yellow', series: [2]}]
+                    legendNames: [{name: 'Red-ish', series: [0,1]}, {name: 'Yellow', series: [2]}]
                 });
 
-                chart.on('created', function () {
+                chart.on('created', function() {
                     chart.off('created');
                     done();
                 });
@@ -466,13 +463,13 @@ describe('Chartist plugin legend', function () {
 
             after(destroyChart);
 
-            it('should enforce a className for each series', function () {
+            it('should enforce a className for each series', function() {
                 expect(chart.data.series[0].className).to.equal('ct-series-a');
                 expect(chart.data.series[1].className).to.equal('ct-series-b');
                 expect(chart.data.series[2].className).to.equal('ct-series-c');
             });
 
-            it('should hide a series after a click on the legend item', function () {
+            it('should hide a series after a click on the legend item', function() {
                 var seriesA = chart.container.querySelector('ul.ct-legend > .ct-series-0');
                 var seriesB = chart.container.querySelector('ul.ct-legend > .ct-series-1');
 
@@ -500,13 +497,13 @@ describe('Chartist plugin legend', function () {
                 click(seriesA);
                 expect(chart.data.series.length).to.equal(1);
                 expect(chart.data.series[0].name).to.equal('Purple pill');
-                svgSeries = chart.container.querySelectorAll('g.ct-series');
+                var svgSeries = chart.container.querySelectorAll('g.ct-series');
                 expect(svgSeries.length).to.equal(1);
                 expect(svgSeries[0].className.baseVal).to.contain('ct-series-c');
 
                 // A second click should show the both series again.
                 click(seriesA);
-                svgSeries2 = chart.container.querySelectorAll('g.ct-series');
+                var svgSeries2 = chart.container.querySelectorAll('g.ct-series');
                 expect(svgSeries2.length).to.equal(3);
                 expect(svgSeries2[0].className.baseVal).to.contain('ct-series-a');
                 expect(svgSeries2[1].className.baseVal).to.contain('ct-series-b');
@@ -523,7 +520,7 @@ describe('Chartist plugin legend', function () {
                 expect(svgSeries2[2].className.baseVal).to.contain('ct-series-c');
             });
 
-            it('should update the legend item classes', function () {
+            it('should update the legend item classes', function() {
                 var seriesA = chart.container.querySelector('ul.ct-legend > .ct-series-0');
                 var seriesB = chart.container.querySelector('ul.ct-legend > .ct-series-1');
 
@@ -540,16 +537,16 @@ describe('Chartist plugin legend', function () {
 
                 // A click in the last active series should set all series active again.
                 click(seriesA);
-                legendItems = chart.container.querySelectorAll('ul.ct-legend > li');
+                var legendItems = chart.container.querySelectorAll('ul.ct-legend > li');
                 expect(legendItems[0].className).to.equal('ct-series-0 inactive');
                 expect(legendItems[1].className).to.equal('ct-series-1');
                 click(seriesB);
-                inactiveItem = chart.container.querySelectorAll('ul.ct-legend > li.inactive');
+                var inactiveItem = chart.container.querySelectorAll('ul.ct-legend > li.inactive');
                 expect(inactiveItem.length).to.equal(0);
 
             });
 
-            it('should call a function after a click on the legend item', function () {
+            it('should call a function after a click on the legend item', function() {
                 var seriesB = chart.container.querySelector('ul.ct-legend > .ct-series-1');
 
                 click(seriesB);
@@ -562,13 +559,13 @@ describe('Chartist plugin legend', function () {
             });
         });
 
-        describe('clickable for a pie', function () {
-            before(function (done) {
+        describe('clickable for a pie', function() {
+            before(function(done) {
                 chart = generateChart('Pie', chartDataPie, {
                     clickable: true,
                 });
 
-                chart.on('created', function () {
+                chart.on('created', function() {
                     chart.off('created');
                     done();
                 });
@@ -576,12 +573,12 @@ describe('Chartist plugin legend', function () {
 
             after(destroyChart);
 
-            it('should enforce a className for each series', function () {
+            it('should enforce a className for each series', function() {
                 expect(chart.data.series[0].className).to.equal('ct-series-a');
                 expect(chart.data.series[1].className).to.equal('ct-series-b');
             });
 
-            it('should hide a series after a click on the legend item', function () {
+            it('should hide a series after a click on the legend item', function() {
                 var seriesB = chart.container.querySelector('ul.ct-legend > .ct-series-1');
 
                 expect(chart.data.labels.length).to.equal(4);
