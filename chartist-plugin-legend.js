@@ -1,7 +1,7 @@
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['@matteoraf/chartist'], function (chartist) {
+        define(['chartist'], function (chartist) {
             return (root.returnExportsGlobal = factory(chartist));
         });
     } else if (typeof exports === 'object') {
