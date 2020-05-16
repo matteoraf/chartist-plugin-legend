@@ -1,17 +1,18 @@
 (function (root, factory) {
-    if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(['@matteoraf/chartist'], function (chartist) {
-            return (root.returnExportsGlobal = factory(chartist));
-        });
-    } else if (typeof exports === 'object') {
-        // Node. Does not work with strict CommonJS, but
-        // only CommonJS-like enviroments that support module.exports,
-        // like Node.
-        module.exports = factory(require('@matteoraf/chartist'));
-    } else {
-        root['Chartist.plugins.legend'] = factory(root['@matteoraf/Chartist']);
-    }
+  if (root === undefined && window !== undefined) root = window;
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module unless amdModuleId is set
+    define(["chartist"], function (a0) {
+      return (root['Chartist.plugins.legend'] = factory(a0));
+    });
+  } else if (typeof module === 'object' && module.exports) {
+    // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like environments that support module.exports,
+    // like Node.
+    module.exports = factory(require("chartist"));
+  } else {
+    root['Chartist.plugins.legend'] = factory(root["Chartist"]);
+  }
 }(this, function (Chartist) {
     /**
      * This Chartist plugin creates a legend to show next to the chart.
