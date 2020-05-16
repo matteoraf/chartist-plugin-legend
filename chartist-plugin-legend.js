@@ -1,7 +1,7 @@
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['chartist'], function (chartist) {
+        define(['@matteoraf/chartist'], function (chartist) {
             return (root.returnExportsGlobal = factory(chartist));
         });
     } else if (typeof exports === 'object') {
@@ -10,7 +10,7 @@
         // like Node.
         module.exports = factory(require('@matteoraf/chartist'));
     } else {
-        root['Chartist.plugins.legend'] = factory(root.Chartist);
+        root['Chartist.plugins.legend'] = factory(root['@matteoraf/Chartist']);
     }
 }(this, function (Chartist) {
     /**
