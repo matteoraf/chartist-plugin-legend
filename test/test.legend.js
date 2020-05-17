@@ -115,11 +115,11 @@ describe('Chartist plugin legend', function() {
             window.Chartist.plugins.legend()(chart);
             // Set a delay on the test to ensure it doesn't overlap with the plugin native 'created' handler
             chart.on('created', function () {
-               setTimeout(function () {
-                  var matches = chart.container.querySelectorAll('ul.ct-legend');
-                  expect(matches.length).to.equal(1);
+                setTimeout(function () {
+                    var matches = chart.container.querySelectorAll('ul.ct-legend');
+                    expect(matches.length).to.equal(1);
 
-               }, 10)
+                }, 10)
             });
         });
     });
@@ -188,21 +188,21 @@ describe('Chartist plugin legend', function() {
 
             // Set a delay on the test to ensure it doesn't overlap with the plugin native 'created' handler
             chart.on('created', function () {
-               setTimeout(function () {
-                  var legendKey = 0;
-                  var parent = chart.container.querySelector('ul.ct-legend');
+                setTimeout(function () {
+                    var legendKey = 0;
+                    var parent = chart.container.querySelector('ul.ct-legend');
 
-                  expect(parent.childNodes.length).to.equal(3);
-                  [].forEach.call(parent.childNodes, function (item)
-                  {
-                     expect(item.innerHTML).to.equal(legendNames[legendKey]);
-                     legendKey += 1;
-                  });
+                    expect(parent.childNodes.length).to.equal(3);
+                    [].forEach.call(parent.childNodes, function (item)
+                    {
+                        expect(item.innerHTML).to.equal(legendNames[legendKey]);
+                        legendKey += 1;
+                    });
 
-                  destroyChart();
-                  done();
+                    destroyChart();
+                    done();
 
-               }, 10)
+                }, 10)
             });
         });
 
@@ -244,100 +244,102 @@ describe('Chartist plugin legend', function() {
 
             // Set a delay on the test to ensure it doesn't overlap with the plugin native 'created' handler
             chart.on('created', function () {
-               setTimeout(function () {
-                  var legend = chart.container.querySelector('ul.ct-legend');
-                  expect(legend.classList[1]).to.equal('bananas');
-                  destroyChart();
-                  done();
+                setTimeout(function () {
+                    var legend = chart.container.querySelector('ul.ct-legend');
+                    expect(legend.classList[1]).to.equal('bananas');
+                    destroyChart();
+                    done();
 
-               }, 10)
+                }, 10)
             });
         });
 
         it('should allow multiple custom class names', function (done) {
-           var classNames = ['multiclass-0', 'multiclass-1', 'multiclass-hidden'];
-           chart = generateChart('Line', chartDataLine, { classNames: classNames });
+            var classNames = ['multiclass-0', 'multiclass-1', 'multiclass-hidden'];
+            chart = generateChart('Line', chartDataLine, { classNames: classNames });
 
-           // Set a delay on the test to ensure it doesn't overlap with the plugin native 'created' handler
-           chart.on('created', function () {
-              setTimeout(function () {
-                 var legend = chart.container.querySelector('ul.ct-legend');
+            // Set a delay on the test to ensure it doesn't overlap with the plugin native 'created' handler
+            chart.on('created', function () {
+                setTimeout(function () {
+                    var legend = chart.container.querySelector('ul.ct-legend');
 
-                 expect(chart.data.series.length).to.equal(3);
-                 expect(legend.children[0].classList.contains(classNames[0])).to.be.true;
-                 expect(legend.children[1].classList.contains(classNames[1])).to.be.true;
-                 expect(legend.children[2].classList.contains(classNames[2])).to.be.true;
-                 destroyChart();
-                 done();
+                    expect(chart.data.series.length).to.equal(3);
+                    expect(legend.children[0].classList.contains(classNames[0])).to.be.true;
+                    expect(legend.children[1].classList.contains(classNames[1])).to.be.true;
+                    expect(legend.children[2].classList.contains(classNames[2])).to.be.true;
+                    destroyChart();
+                    done();
 
-              }, 10)
-           });
+                }, 10)
+            });
         });
 
         describe('allow custom positioning', function () {
-           it('should allow top positioning', function (done) {
-              chart = generateChart('Line', chartDataLine, { position: 'top' });
+            it('should allow top positioning', function (done) {
+                chart = generateChart('Line', chartDataLine, { position: 'top' });
 
-              // Set a delay on the test to ensure it doesn't overlap with the plugin native 'created' handler
-              chart.on('created', function () {
-                 setTimeout(function () {
-                    expect(chart.container.childNodes.length).to.equal(2);
-                    var listElement = chart.container.querySelector("ul");
-                    expect(chart.container.childNodes[0]).to.equal(listElement);
-                    done();
-                 }, 10)
-              });
-           });
+                // Set a delay on the test to ensure it doesn't overlap with the plugin native 'created' handler
+                chart.on('created', function () {
+                    setTimeout(function () {
+                        expect(chart.container.childNodes.length).to.equal(2);
+                        var listElement = chart.container.querySelector("ul");
+                        expect(chart.container.childNodes[0]).to.equal(listElement);
+                        done();
+                    }, 10)
+                });
+            });
 
-           it('should allow bottom positioning', function (done) {
-              chart = generateChart('Line', chartDataLine, { position: 'bottom' });
+            it('should allow bottom positioning', function (done) {
+                chart = generateChart('Line', chartDataLine, { position: 'bottom' });
 
-              // Set a delay on the test to ensure it doesn't overlap with the plugin native 'created' handler
-              chart.on('created', function () {
-                 setTimeout(function () {
-                    expect(chart.container.childNodes.length).to.equal(2);
-                    var listElement = chart.container.querySelector("ul");
-                    expect(chart.container.childNodes[1]).to.equal(listElement);
-                    done();
-                 }, 10)
-              });
-           });
+                // Set a delay on the test to ensure it doesn't overlap with the plugin native 'created' handler
+                chart.on('created', function () {
+                    setTimeout(function () {
+                        expect(chart.container.childNodes.length).to.equal(2);
+                        var listElement = chart.container.querySelector("ul");
+                        expect(chart.container.childNodes[1]).to.equal(listElement);
+                        done();
+                    }, 10)
+                });
+            });
 
-           it('should allow positioning to any DOM2 element', function (done) {
-              var testDOMElement = document.createElement('div');
-              document.body.insertBefore(testDOMElement , null);
+            it('should allow positioning to any DOM2 element', function (done) {
+                var elementId = 'legend';
+                var testDOMElement = document.createElement('div');
+                testDOMElement.setAttribute('id', elementId)
+                document.body.insertBefore(testDOMElement , null);
 
-              chart = generateChart('Line', chartDataLine, { position: testDOMElement });
+                chart = generateChart('Line', chartDataLine, { position: elementId });
 
-              // Set a delay on the test to ensure it doesn't overlap with the plugin native 'created' handler
-              chart.on('created', function () {
-                 setTimeout(function () {
-                    expect(testDOMElement.childNodes.length).to.equal(1);
-                    var listElement = testDOMElement.querySelector("ul");
-                    expect(testDOMElement.childNodes[0]).to.equal(listElement);
+                // Set a delay on the test to ensure it doesn't overlap with the plugin native 'created' handler
+                chart.on('created', function () {
+                    setTimeout(function () {
+                        expect(testDOMElement.childNodes.length).to.equal(1);
+                        var listElement = testDOMElement.querySelector("ul");
+                        expect(testDOMElement.childNodes[0]).to.equal(listElement);
 
-                     // Clean up
-                    document.body.removeChild(testDOMElement);
-                    done();
-                 }, 100)
-              });
-           });
+                        // Clean up
+                        document.body.removeChild(testDOMElement);
+                        done();
+                    }, 100)
+                });
+            });
         });
 
         it('should allow to remove all series at once', function () {
-           chart = generateChart('Line', chart2DataLine, { removeAll: true });
+            chart = generateChart('Line', chart2DataLine, { removeAll: true });
 
-           chart.on('created', function () {
-              var seriesA = chart.container.querySelector('ul.ct-legend > .ct-series-0');
+            chart.on('created', function () {
+                var seriesA = chart.container.querySelector('ul.ct-legend > .ct-series-0');
 
-              expect(chart.data.series.length).to.equal(1);
-              click(seriesA);
-              expect(chart.data.series.length).to.equal(0);
-              click(seriesA);
-              expect(chart.data.series.length).to.equal(1);
-              destroyChart();
-              done();
-           });
+                expect(chart.data.series.length).to.equal(1);
+                click(seriesA);
+                expect(chart.data.series.length).to.equal(0);
+                click(seriesA);
+                expect(chart.data.series.length).to.equal(1);
+                destroyChart();
+                done();
+            });
         })
 
         describe('clickable', function() {
@@ -435,14 +437,14 @@ describe('Chartist plugin legend', function() {
 
                 click(seriesB);
                 expect(chart.legendClicked).to.equal(true);
-                
+
                 //Clicking on an inactive series should also call the function.
                 chart.legendClicked = false;
                 click(seriesB);
                 expect(chart.legendClicked).to.equal(true);
             });
         });
-        
+
         describe('clickable with multiple series per legend item', function() {
             before(function(done) {
                 chart = generateChart('Line', chartDataLine, {
@@ -490,7 +492,7 @@ describe('Chartist plugin legend', function() {
                 expect(svgSeries2[0].className.baseVal).to.contain('ct-series-a');
                 expect(svgSeries2[1].className.baseVal).to.contain('ct-series-b');
                 expect(svgSeries2[2].className.baseVal).to.contain('ct-series-c');
-                
+
                 // Clicking on the first legend item should hide the two first series:
                 click(seriesA);
                 expect(chart.data.series.length).to.equal(1);
@@ -549,14 +551,14 @@ describe('Chartist plugin legend', function() {
 
                 click(seriesB);
                 expect(chart.legendClicked).to.equal(true);
-                
+
                 //Clicking on an inactive series should also call the function.
                 chart.legendClicked = false;
                 click(seriesB);
                 expect(chart.legendClicked).to.equal(true);
             });
         });
-        
+
         describe('clickable for a pie', function() {
             before(function(done) {
                 chart = generateChart('Pie', chartDataPie, {

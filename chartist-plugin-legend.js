@@ -1,14 +1,14 @@
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['chartist'], function (chartist) {
+        define(['@matteoraf/chartist'], function (chartist) {
             return (root.returnExportsGlobal = factory(chartist));
         });
     } else if (typeof exports === 'object') {
         // Node. Does not work with strict CommonJS, but
         // only CommonJS-like enviroments that support module.exports,
         // like Node.
-        module.exports = factory(require('chartist'));
+        module.exports = factory(require('@matteoraf/chartist'));
     } else {
         root['Chartist.plugins.legend'] = factory(root.Chartist);
     }
@@ -33,25 +33,14 @@
 
     Chartist.plugins.legend = function (options) {
 
-        // Catch invalid options
+        // Catch invalid options - position must be a string
         if (options && options.position) {
-            if (!(options.position === 'top' || options.position === 'bottom' || options.position instanceof HTMLElement)) {
+            if (!(typeof options.position === 'string')) {
                 throw Error('The position you entered is not a valid position');
-            }
-            if (options.position instanceof HTMLElement) {
-                // Detatch DOM element from options object, because Chartist.extend
-                // currently chokes on circular references present in HTMLElements
-                var cachedDOMPosition = options.position;
-                delete options.position;
             }
         }
 
         options = Chartist.extend({}, defaultOptions, options);
-
-        if (cachedDOMPosition) {
-            // Reattatch the DOM Element position if it was removed before
-            options.position = cachedDOMPosition
-        }
 
         return function legend(chart) {
 
@@ -117,12 +106,16 @@
                 return seriesMetadata;
             }
 
-            function createNameElement(i, legendText, classNamesViable) {
+            function createNameElement(i, legendText, classNamesViable, seriesClassName) {
                 var li = document.createElement('li');
                 li.classList.add('ct-series-' + i);
                 // Append specific class to a legend element, if viable classes are given
                 if (classNamesViable) {
                     li.classList.add(options.classNames[i]);
+                }
+                // Append the series className too, if given
+                if (seriesClassName) {
+                    li.classList.add(seriesClassName);
                 }
                 li.setAttribute('data-legend', i);
                 li.textContent = legendText;
@@ -131,17 +124,23 @@
 
             // Append the legend element to the DOM, returns the appended element
             function appendLegendToDOM(legendElement) {
-                if (!(options.position instanceof HTMLElement)) {
-                    switch (options.position) {
-                        case 'top':
-                            return chart.container.insertBefore(legendElement, chart.container.childNodes[0]);
+                // If you named your div 'top' or 'bottom', it won't be attached
+                switch (options.position) {
+                    case 'top':
+                        return chart.container.insertBefore(legendElement, chart.container.childNodes[0]);
 
-                        case 'bottom':
-                            return chart.container.insertBefore(legendElement, null);
-                    }
-                } else {
-                    // Appends the legend element as the last child of a given HTMLElement
-                    return options.position.insertBefore(legendElement, null);
+                    case 'bottom':
+                        return chart.container.insertBefore(legendElement, null);
+
+                    default:
+                        var pos = document.getElementById(options.position)
+                        if (pos !== null) {
+                            // Appends the legend element as the last child of a given HTMLElement
+                            return pos.insertBefore(legendElement, null);
+                        } else {
+                            throw Error('The position you entered is not a valid position');
+                        }
+                        break;
                 }
             }
 
@@ -162,9 +161,11 @@
                         legend.active = false;
                         li.classList.add('inactive');
 
-                        var activeCount = legends.filter(function(legend) { return legend.active; }).length;
-                        if (!options.removeAll && activeCount == 0) {
-                            // If we can't disable all series at the same time, let's
+                        var activeCount = legends.filter(function (legend) {
+                            return legend.active;
+                        }).length;
+                        if (!options.removeAll && activeCount === 0) {
+                            // If we can't disable all series at the same time, var's
                             // reenable all of them:
                             for (var i = 0; i < legends.length; i++) {
                                 legends[i].active = true;
@@ -177,7 +178,7 @@
                     var newLabels = [];
 
                     for (var i = 0; i < seriesMetadata.length; i++) {
-                        if (seriesMetadata[i].legend != -1 && legends[seriesMetadata[i].legend].active) {
+                        if (seriesMetadata[i].legend !== -1 && legends[seriesMetadata[i].legend].active) {
                             newSeries.push(seriesMetadata[i].data);
                             newLabels.push(seriesMetadata[i].label);
                         }
@@ -227,8 +228,9 @@
                 legendNames.forEach(function (legend, i) {
                     var legendText = legend.name || legend;
                     var legendSeries = legend.series || [i];
+                    var legendClassName = legend.className ? legend.className : null;
 
-                    var li = createNameElement(i, legendText, classNamesViable);
+                    var li = createNameElement(i, legendText, classNamesViable, legendClassName);
                     legendElement.appendChild(li);
 
                     legendSeries.forEach(function(seriesIndex) {
@@ -269,7 +271,6 @@
                     setSeriesClassNames();
                     addClickHandler(legendElement, legends, seriesMetadata, useLabels);
                 }
-
             }
 
             // Let's now run it and create our legend
