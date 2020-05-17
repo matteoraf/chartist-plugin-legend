@@ -1,6 +1,6 @@
 {
   "name": "@matteoraf/chartist-plugin-legend",
-  "version": "0.7.3",
+  "version": "0.7.4",
   "author": "Matteoraf & Kees Kluskens <kees@codeyellow.nl>",
   "description": "Legend plugin for Chartist.js.",
   "license": "ISC",
